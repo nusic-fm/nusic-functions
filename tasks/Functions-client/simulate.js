@@ -2,6 +2,7 @@ const { simulateRequest, buildRequest, getDecodedResultLog } = require("../../Fu
 const { networkConfig } = require("../../network-config")
 
 task("functions-simulate", "Simulates an end-to-end fulfillment locally for the FunctionsConsumer contract")
+  .addParam("datatype", "Data Type for functions, '1 for youtube' or '2 for spotify'")
   .addOptionalParam(
     "gaslimit",
     "Maximum amount of gas that can be used to call fulfillRequest in the client contract (defaults to 100,000)"
@@ -17,6 +18,8 @@ task("functions-simulate", "Simulates an end-to-end fulfillment locally for the 
     if (gasLimit > 300000) {
       throw Error("Gas limit must be less than or equal to 300,000")
     }
+
+    const datatype = parseInt(taskArgs.datatype);
 
     // Recompile the latest version of the contracts
     console.log("\n__Compiling Contracts__")
@@ -49,7 +52,10 @@ task("functions-simulate", "Simulates an end-to-end fulfillment locally for the 
     await registry.addConsumer(subscriptionId, client.address)
 
     // Build the parameters to make a request from the client contract
-    const requestConfig = require("../../Functions-request-config.js")
+    let requestConfig = require("../../Functions-request-config.js")
+    if(datatype == 2) {
+      requestConfig = require("../../Functions-request-config-spotify.js")
+    }
     // Fetch the DON public key from on-chain
     const DONPublicKey = await oracle.getDONPublicKey()
     // Remove the preceeding 0x from the DON public key
@@ -65,14 +71,19 @@ task("functions-simulate", "Simulates an end-to-end fulfillment locally for the 
         request.secrets ?? [],
         request.args ?? [],
         subscriptionId,
-        gasLimit
+        gasLimit, 
+        datatype
       )
       const requestTxReceipt = await requestTx.wait(1)
       const requestId = requestTxReceipt.events[2].args.id
 
       // Simulating the JavaScript code locally
       console.log("\nExecuting JavaScript request source code locally...")
-      const { success, result, resultLog } = await simulateRequest(require("../../Functions-request-config.js"))
+      let _requestConfig = require("../../Functions-request-config")
+      if(datatype == 2) {
+        _requestConfig = require("../../Functions-request-config-spotify.js")
+      }
+      const { success, result, resultLog } = await simulateRequest(_requestConfig)
       console.log(`\n${resultLog}`)
 
       // Simulate a request fulfillment
