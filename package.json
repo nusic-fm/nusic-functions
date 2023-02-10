@@ -25,7 +25,7 @@
     "chai": "^4.3.6",
     "eth-crypto": "^2.4.0",
     "ethers": "^5.7.1",
-    "hardhat": "^2.11.2",
+    "hardhat": "^2.12.6",
     "hardhat-contract-sizer": "^2.6.1",
     "hardhat-gas-reporter": "^1.0.9",
     "husky": "^8.0.1",
