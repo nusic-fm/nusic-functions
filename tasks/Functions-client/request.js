@@ -5,6 +5,7 @@ const readline = require("readline-promise").default
 task("functions-request", "Initiates a request from an Functions client contract")
   .addParam("contract", "Address of the client contract to call")
   .addParam("subid", "Billing subscription ID used to pay for the request")
+  .addParam("datatype", "Data Type for functions, '1 for youtube' or '2 for spotify'")
   .addOptionalParam(
     "gaslimit",
     "Maximum amount of gas that can be used to call fulfillRequest in the client contract (defaults to 100,000)"
@@ -29,6 +30,7 @@ task("functions-request", "Initiates a request from an Functions client contract
     // Get the required parameters
     const contractAddr = taskArgs.contract
     const subscriptionId = taskArgs.subid
+    const datatype = parseInt(taskArgs.datatype)
     const gasLimit = parseInt(taskArgs.gaslimit ?? "100000")
     if (gasLimit > 300000) {
       throw Error("Gas limit must be less than or equal to 300,000")
@@ -44,7 +46,10 @@ task("functions-request", "Initiates a request from an Functions client contract
     const registry = await RegistryFactory.attach(registryAddress)
 
     console.log("Simulating Functions request locally...")
-    const requestConfig = require("../../Functions-request-config.js")
+    let requestConfig = require("../../Functions-request-config.js")
+    if(datatype == 2) {
+      requestConfig = require("../../Functions-request-config-spotify.js")
+    }
     const { success, resultLog } = await simulateRequest(requestConfig)
     console.log(`\n${resultLog}`)
 
@@ -157,9 +162,13 @@ task("functions-request", "Initiates a request from an Functions client contract
 
         console.log(`Request ${requestId} fulfilled!`)
         if (result !== "0x") {
+          let _requestConfig = require("../../Functions-request-config")
+          if(datatype == 2) {
+            _requestConfig = require("../../Functions-request-config-spotify.js")
+          }
           console.log(
             `Response returned to client contract represented as a hex string: ${result}\n${getDecodedResultLog(
-              require("../../Functions-request-config"),
+              _requestConfig,
               result
             )}`
           )
@@ -210,6 +219,7 @@ task("functions-request", "Initiates a request from an Functions client contract
         request.args ?? [],
         subscriptionId,
         gasLimit,
+        datatype,
         overrides,
       )
       // If a response is not received within 5 minutes, the request has failed
