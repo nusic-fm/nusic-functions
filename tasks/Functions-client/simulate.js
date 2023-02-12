@@ -32,6 +32,10 @@ task("functions-simulate", "Simulates an end-to-end fulfillment locally for the 
     const client = await clientFactory.deploy(oracle.address)
     await client.deployTransaction.wait(1)
 
+    const bondNFTFactory = await ethers.getContractFactory("BondNFT")
+    const bondNFT = await bondNFTFactory.deploy("BondNFT", "BNFT")
+    await bondNFT.deployTransaction.wait(1)
+
     const accounts = await ethers.getSigners()
     const deployer = accounts[0]
     // Add the wallet initiating the request to the oracle whitelist
@@ -72,7 +76,8 @@ task("functions-simulate", "Simulates an end-to-end fulfillment locally for the 
         request.args ?? [],
         subscriptionId,
         gasLimit, 
-        datatype
+        datatype,
+        bondNFT.address
       )
       const requestTxReceipt = await requestTx.wait(1)
       const requestId = requestTxReceipt.events[2].args.id
@@ -213,5 +218,6 @@ const deployMockOracle = async () => {
   // Set the current account as an authorized sender in the mock registry to allow for simulated local fulfillments
   await registry.setAuthorizedSenders([oracle.address, deployer.address])
   await oracle.setRegistry(registry.address)
+
   return { oracle, registry, linkToken }
 }
