@@ -6,6 +6,7 @@ task("functions-request", "Initiates a request from an Functions client contract
   .addParam("contract", "Address of the client contract to call")
   .addParam("subid", "Billing subscription ID used to pay for the request")
   .addParam("datatype", "Data Type for functions, '1 for youtube' or '2 for spotify'")
+  .addParam("nftcontract", "Address of the NFT Bond Contract")
   .addOptionalParam(
     "gaslimit",
     "Maximum amount of gas that can be used to call fulfillRequest in the client contract (defaults to 100,000)"
@@ -31,6 +32,7 @@ task("functions-request", "Initiates a request from an Functions client contract
     const contractAddr = taskArgs.contract
     const subscriptionId = taskArgs.subid
     const datatype = parseInt(taskArgs.datatype)
+    const nftcontractAddr = taskArgs.nftcontract
     const gasLimit = parseInt(taskArgs.gaslimit ?? "100000")
     if (gasLimit > 300000) {
       throw Error("Gas limit must be less than or equal to 300,000")
@@ -220,6 +222,7 @@ task("functions-request", "Initiates a request from an Functions client contract
         subscriptionId,
         gasLimit,
         datatype,
+        nftcontractAddr,
         overrides,
       )
       // If a response is not received within 5 minutes, the request has failed
