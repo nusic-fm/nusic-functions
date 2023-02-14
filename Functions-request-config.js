@@ -30,14 +30,14 @@ const requestConfig = {
   // code language (only JavaScript is currently supported)
   codeLanguage: CodeLanguage.JavaScript,
   // string containing the source code to be executed
-  source: fs.readFileSync("./Functions-request-source-calculation-example.js").toString(),
+  source: fs.readFileSync("./Functions-request-youtube-api.js").toString(),
   //source: fs.readFileSync('./Functions-request-source-API-example.js').toString(),
   // secrets can be accessed within the source code with `secrets.varName` (ie: secrets.apiKey)
   secrets: { apiKey: process.env.COINMARKETCAP_API_KEY },
   // ETH wallet key used to sign secrets so they cannot be accessed by a 3rd party
   walletPrivateKey: process.env["PRIVATE_KEY"],
   // args (string only array) can be accessed within the source code with `args[index]` (ie: args[0]). 
-  args: ["1", "bitcoin", "btc-bitcoin", "btc", "1000000", "450"],
+  args: ["AIzaSyBK86jGrCR8lh5IVyKSohMN1Q2_tvUy2uA", "statistics", "UCOmHUn--16B90oW2L6FRR3A"],
   // expected type of the returned value
   expectedReturnType: ReturnType.uint256,
 }
