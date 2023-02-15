@@ -4,6 +4,7 @@ pragma solidity ^0.8.7;
 import "./dev/functions/FunctionsClient.sol";
 // import "@chainlink/contracts/src/v0.8/dev/functions/FunctionsClient.sol"; // Once published
 import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
+import "./BondNFT.sol";
 
 /**
  * @title Functions Copns contract
@@ -16,6 +17,7 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner {
   bytes public latestResponse;
   bytes public latestError;
   mapping(bytes32=>uint256) public requestDataMapping; // requestId => datatype - 1 = youtube, 2 = spotify
+  mapping(bytes32=>address) internal requestToNFTAddress; // requestId => NFT Bond Address
 
   event OCRResponse(bytes32 indexed requestId, bytes result, bytes err, string datatype);
 
@@ -39,7 +41,8 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner {
     string[] calldata args,
     uint64 subscriptionId,
     uint32 gasLimit,
-    uint256 datatype
+    uint256 datatype,
+    address nftContractAddress
   ) public onlyOwner returns (bytes32) {
     Functions.Request memory req;
     req.initializeRequest(Functions.Location.Inline, Functions.CodeLanguage.JavaScript, source);
@@ -49,6 +52,7 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner {
     bytes32 assignedReqID = sendRequest(req, subscriptionId, gasLimit, tx.gasprice);
     latestRequestId = assignedReqID;
     requestDataMapping[assignedReqID] = datatype;
+    requestToNFTAddress[assignedReqID] = nftContractAddress;
     return assignedReqID;
   }
 
@@ -69,10 +73,14 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner {
     latestResponse = response;
     latestError = err;
     uint256 _datatype = requestDataMapping[requestId];
+    address _nftContractAddress = requestToNFTAddress[requestId];
+    BondNFT bondNFT = BondNFT(_nftContractAddress);
     if(_datatype == 1) { // 1 = youtube
+      bondNFT.latestYoutubeSubscribersFulFill(bytesToUint256(response));
       emit OCRResponse(requestId, response, err, "youtube");
     }
     else if(_datatype == 2) { // 2 = spotify
+      bondNFT.latestSpotifyListenersFulFill(bytesToUint256(response));
       emit OCRResponse(requestId, response, err, "spotify");
     }
     
@@ -80,5 +88,14 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner {
 
   function updateOracleAddress(address oracle) public onlyOwner {
     setOracle(oracle);
+  }
+
+  function bytesToUint256(bytes memory _bs) internal pure returns (uint256 value) {
+    require(_bs.length == 32, "bytes length is not 32.");
+    assembly {
+        // load 32 bytes from memory starting from position _bs + 32
+        value := mload(add(_bs, 0x20))
+    }
+    require(value <= 0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff, "Value exceeds the range");
   }
 }
