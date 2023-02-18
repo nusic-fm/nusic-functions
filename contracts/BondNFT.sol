@@ -4,7 +4,7 @@ pragma solidity ^0.8.7;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
-import "./FunctionsConsumer.sol";
+///import "./FunctionsConsumer.sol";
 //import "./ChainlinkSpotifyListeners.sol";
 //import "./ChainlinkMetadataRequest.sol";
 //import "./ChainlinkYoutubeSubscribers.sol";
@@ -16,7 +16,9 @@ contract BondNFT is ERC721, Ownable {
     uint256 public totalSupply;
 
     string public artistName;
-    string public artistId;
+    string public youtubeArtistId;
+    string public soundchartsSpotifyArtistId;
+    string public songstatsSpotifyArtistId;
     string public channelId;
     uint256 public fundingAmount;
     uint256 public numberOfYears;
@@ -32,7 +34,7 @@ contract BondNFT is ERC721, Ownable {
     string public defaultURI = "ipfs://QmUNYMorLY9y15eYYZDXxTbdQPAXWqC3MwMm4Jtuz7SsxA";
     string public baseURI;
 
-    FunctionsConsumer private functionsConsumer;
+    //FunctionsConsumer private functionsConsumer;
     //ChainlinkSpotifyListeners private chainlinkSpotifyListeners;
     //ChainlinkMetadataRequest private chainlinkMetadataRequest;
     //ChainlinkYoutubeSubscribers private chainlinkYoutubeSubscribers;
@@ -40,20 +42,22 @@ contract BondNFT is ERC721, Ownable {
     bytes32 private spotifyListenersRequestId;
     bytes32 private youtubeSubscribersRequestId;
     
-    constructor(string memory _name, string memory _symbol, address _functionConsumerAddress) ERC721(_name, _symbol) {
-        functionsConsumer = FunctionsConsumer(_functionConsumerAddress);
+    //constructor(string memory _name, string memory _symbol, address _functionConsumerAddress) ERC721(_name, _symbol) {
+    constructor(string memory _name, string memory _symbol) ERC721(_name, _symbol) {
+        //functionsConsumer = FunctionsConsumer(_functionConsumerAddress);
         //chainlinkSpotifyListeners = ChainlinkSpotifyListeners(_chainlinkSpotifyListenersAddress);
         //chainlinkYoutubeSubscribers = ChainlinkYoutubeSubscribers(_chainlinkYoutubeSubscribersAddress);
         //chainlinkMetadataRequest = ChainlinkMetadataRequest(_chainlinkMetadataRequestAddress);
     }
 
     // funding amount means amount issuer will deposit at start
-    function initialize(string memory _artistName, string memory _artistId, string memory _channelId, 
+    function initialize(string memory _artistName, string memory _youtubeArtistId, string memory _soundchartsSpotifyArtistId, string memory _songstatsSpotifyArtistId,
                 uint256 _fundingAmount, uint256 _numberOfYears, uint256 _numberOfBonds, 
                 uint256 _facevalue, uint256 _spotifyListeners, uint256 _youtubeSubscribers, address _assetPoolAddress) public {
         artistName = _artistName;
-        artistId = _artistId;
-        channelId = _channelId;
+        youtubeArtistId = _youtubeArtistId;
+        soundchartsSpotifyArtistId = _soundchartsSpotifyArtistId;
+        songstatsSpotifyArtistId = _songstatsSpotifyArtistId;
         fundingAmount = _fundingAmount;
         numberOfYears = _numberOfYears;
         numberOfBonds = _numberOfBonds;
