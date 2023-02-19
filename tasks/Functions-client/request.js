@@ -48,10 +48,19 @@ task("functions-request", "Initiates a request from an Functions client contract
     const registry = await RegistryFactory.attach(registryAddress)
 
     console.log("Simulating Functions request locally...")
-    let requestConfig = require("../../Functions-request-config.js")
-    if(datatype == 2) {
-      requestConfig = require("../../Functions-request-config-spotify.js")
+    const bondNFTFactory = await ethers.getContractFactory("BondNFT")
+    const bondNFT = await bondNFTFactory.attach(nftcontractAddr)
+    let requestConfig = {}
+    if(datatype == 1) {
+      requestConfig = require("../../Functions-request-config.js")
+      requestConfig.args[0] = await bondNFT.youtubeSongId()
     }
+    else if(datatype == 2) {
+      requestConfig = require("../../Functions-request-config-spotify.js")
+      requestConfig.args[0] = await bondNFT.soundchartsSpotifySongId()
+      requestConfig.args[1] = await bondNFT.songstatsSpotifySongId()
+    }
+    console.log("Config args = ", requestConfig.args)
     const { success, resultLog } = await simulateRequest(requestConfig)
     console.log(`\n${resultLog}`)
 
