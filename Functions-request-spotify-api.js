@@ -1,6 +1,6 @@
 console.log("Spotify API")
-const uuid = args[0]
-const songStatsArtistId = args[1]
+const soundchartsSongId = args[0]
+const songstatsSongId = args[1]
 
 
 // To make an HTTP request, use the Functions.makeHttpRequest function
@@ -13,44 +13,45 @@ const songStatsArtistId = args[1]
 // - timeout: maximum request duration in ms (optional, defaults to 10000ms)
 // - responseType: expected response type (optional, defaults to 'json')+
 
-const spotifyListenersRequest = Functions.makeHttpRequest({
-  url: `https://customer.api.soundcharts.com/api/v2/artist/${uuid}/streaming/spotify/listeners`,
+const spotifyStreamCountRequest = Functions.makeHttpRequest({
+  url: `https://customer.api.soundcharts.com/api/v2.24/song/${soundchartsSongId}/spotify/stream`,
+  //url: `https://customer.api.soundcharts.com/api/v2/artist/${uuid}/streaming/spotify/listeners`,
   // Get a free API key from https://coinmarketcap.com/api/
   headers: { "x-app-id": secrets.soundchartsAppId, "x-api-key":secrets.soundchartsApiKey  },
 })
 
-const spotifyListenersSongStatsRequest = Functions.makeHttpRequest({
-  url: `https://api.songstats.com/enterprise/v1/artists/stats?songstats_artist_id=${songStatsArtistId}`,
+const spotifyStreamCountSongStatsRequest = Functions.makeHttpRequest({
+  url: `https://api.songstats.com/enterprise/v1/tracks/stats?source=spotify&songstats_track_id=${songstatsSongId}`,
+  //url: `https://api.songstats.com/enterprise/v1/artists/stats?songstats_artist_id=${songStatsArtistId}`,
   // Get a free API key from https://coinmarketcap.com/api/
   headers: { "apikey": secrets.songStatsAPIKey  },
 })
 
 // First, execute all the API requests are executed concurrently, then wait for the responses
-const [spotifyListenersResponse, spotifyListenersSongStatsResponse] = await Promise.all([
-  spotifyListenersRequest,
-  spotifyListenersSongStatsRequest
+const [spotifyStreamCountResponse, spotifyStreamCountSongStatsResponse] = await Promise.all([
+  spotifyStreamCountRequest,
+  spotifyStreamCountSongStatsRequest
 ])
 
-//console.log("spotifyListenersResponse = ",spotifyListenersResponse);
-console.log("spotifyListenersResponse.data = ",spotifyListenersResponse.data.items[0]);
-console.log("spotifyListenersResponse value = ",spotifyListenersResponse.data.items[0].value);
+//console.log("spotifyStreamCountResponse = ",spotifyStreamCountResponse);
+//console.log("spotifyStreamCountResponse.data = ",spotifyStreamCountResponse.data.items[0]);
+console.log("spotifyStreamCountResponse value = ",spotifyStreamCountResponse.data.items[0].plots[0].value);
 
 
-//console.log("spotifyListenersResponse = ",spotifyListenersResponse);
-//console.log("spotifyListenersSongStatsResponse = ",spotifyListenersSongStatsResponse);
-console.log("spotifyListenersSongStatsResponse.data = ",spotifyListenersSongStatsResponse.data.stats[0]);
-console.log("spotifyListenersSongStatsResponse monthly_listeners_current = ",spotifyListenersSongStatsResponse.data.stats[0].data.monthly_listeners_current);
+//console.log("spotifyStreamCountSongStatsResponse = ",spotifyStreamCountSongStatsResponse);
+//console.log("spotifyStreamCountSongStatsResponse.data = ",spotifyStreamCountSongStatsResponse.data.stats[0]);
+console.log("spotifyStreamCountSongStatsResponse streams_total = ",spotifyStreamCountSongStatsResponse.data.stats[0].data.streams_total);
 
 const stats = [];
 
-if (!spotifyListenersResponse.error) {
-  stats.push(spotifyListenersResponse.data.items[0].value)
+if (!spotifyStreamCountResponse.error) {
+  stats.push(spotifyStreamCountResponse.data.items[0].plots[0].value)
 } else {
   console.log("SoundCharts Spotify Listeners Count Error")
 }
 
-if (!spotifyListenersSongStatsResponse.error) {
-  stats.push(spotifyListenersSongStatsResponse.data.stats[0].data.monthly_listeners_current)
+if (!spotifyStreamCountSongStatsResponse.error) {
+  stats.push(spotifyStreamCountSongStatsResponse.data.stats[0].data.streams_total)
 } else {
   console.log("Song Stats Spotify Listeners Count Error")
 }
