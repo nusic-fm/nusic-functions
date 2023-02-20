@@ -37,7 +37,8 @@ const requestConfig = {
   // ETH wallet key used to sign secrets so they cannot be accessed by a 3rd party
   walletPrivateKey: process.env["PRIVATE_KEY"],
   // args (string only array) can be accessed within the source code with `args[index]` (ie: args[0]). 
-  args: ["a59154fd-61aa-4076-9569-335dcc5e2b79", "sznmhxr8"], // 0 = uuid for soundcharts - artist id , 1 = songstats artist id
+  //args: ["a59154fd-61aa-4076-9569-335dcc5e2b79", "sznmhxr8"], // 0 = uuid for soundcharts - artist id , 1 = songstats artist id
+  args: ["11040b66-5ccb-493c-85d3-40ae9af36f45", "isbek24j"], // 0 = uuid for soundcharts - artist id , 1 = songstats artist id
   // expected type of the returned value
   expectedReturnType: ReturnType.uint256,
 }

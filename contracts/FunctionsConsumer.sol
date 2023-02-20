@@ -76,11 +76,11 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner {
     address _nftContractAddress = requestToNFTAddress[requestId];
     BondNFT bondNFT = BondNFT(_nftContractAddress);
     if(_datatype == 1) { // 1 = youtube
-      bondNFT.latestYoutubeSubscribersFulFill(bytesToUint256(response));
+      bondNFT.latestYoutubeViewsCountFulFill(bytesToUint256(response));
       emit OCRResponse(requestId, response, err, "youtube");
     }
     else if(_datatype == 2) { // 2 = spotify
-      bondNFT.latestSpotifyListenersFulFill(bytesToUint256(response));
+      bondNFT.latestSpotifyStreamCountFulFill(bytesToUint256(response));
       emit OCRResponse(requestId, response, err, "spotify");
     }
     
