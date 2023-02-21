@@ -21,7 +21,7 @@ contract RatingEngine is Ownable {
     function allocateRatingByAssetPoolAddress(address _assetPoolAddress, uint256 _couponRate) public view returns(string memory){
         AssetPool assetPool = AssetPool(payable(_assetPoolAddress));
         BondNFT bondNFT = BondNFT(assetPool.nftAddress());
-        uint256 meadianListeners = calculateMedian(bondNFT.spotifyListeners(),bondNFT.youtubeSubscribers());
+        uint256 meadianListeners = calculateMedian(bondNFT.spotifyStreamCount(),bondNFT.youtubeViewsCount());
         uint256 assetPoolBalance = _assetPoolAddress.balance;
         uint256 bondValue = assetPool.bondValue();
         uint256 totalValueWithInterest = bondValue + calculateYiedPayment(bondValue, _couponRate, assetPool.numberOfQuarters());
