@@ -16,17 +16,20 @@ contract BondNFT is ERC721, Ownable {
     uint256 public totalSupply;
 
     string public artistName;
-    string public youtubeArtistId;
-    string public soundchartsSpotifyArtistId;
-    string public songstatsSpotifyArtistId;
+    //string public youtubeArtistId;
+    //string public soundchartsSpotifyArtistId;
+    //string public songstatsSpotifyArtistId;
+    string public youtubeSongId;
+    string public soundchartsSongId;
+    string public songstatsSongId;
     string public channelId;
     uint256 public fundingAmount;
     uint256 public numberOfYears;
     uint256 public numberOfBonds; // Same as Max Supply
     address public issuerAddress;
     uint256 public faceValue;
-    uint256 public spotifyListeners;
-    uint256 public youtubeSubscribers;
+    uint256 public spotifyStreamCount;
+    uint256 public youtubeViewsCount;
     address public assetPoolAddress;
     uint256 public individualBondValue;
 
@@ -51,7 +54,34 @@ contract BondNFT is ERC721, Ownable {
     }
 
     // funding amount means amount issuer will deposit at start
+    
+    function initialize(string memory _artistName, string memory _youtubeSongId, string memory _soundchartsSongId, string memory _songstatsSongId,
+                uint256 _fundingAmount, uint256 _numberOfYears, uint256 _numberOfBonds, 
+                uint256 _facevalue, uint256 _spotifyStreamCount, uint256 _youtubeViewsCount, address _assetPoolAddress) public {
+        artistName = _artistName;
+        youtubeSongId = _youtubeSongId;
+        soundchartsSongId = _soundchartsSongId;
+        songstatsSongId = _songstatsSongId;
+        //youtubeArtistId = _youtubeArtistId;
+        //soundchartsSpotifyArtistId = _soundchartsSpotifyArtistId;
+        //songstatsSpotifyArtistId = _songstatsSpotifyArtistId;
+        fundingAmount = _fundingAmount;
+        numberOfYears = _numberOfYears;
+        numberOfBonds = _numberOfBonds;
+        issuerAddress = msg.sender;
+        faceValue = _facevalue;
+        spotifyStreamCount = _spotifyStreamCount;
+        youtubeViewsCount = _youtubeViewsCount;
+        assetPoolAddress = _assetPoolAddress;
+        individualBondValue = faceValue/numberOfBonds;
+
+        //requestLatestSpotifyListeners();
+        //requestLatestYoutubeSubscribers();
+        //requestMetadataURI();
+    }
+    /*
     function initialize(string memory _artistName, string memory _youtubeArtistId, string memory _soundchartsSpotifyArtistId, string memory _songstatsSpotifyArtistId,
+    string memory _youtubeArtistId1, string memory _soundchartsSpotifyArtistId1, string memory _songstatsSpotifyArtistId1,
                 uint256 _fundingAmount, uint256 _numberOfYears, uint256 _numberOfBonds, 
                 uint256 _facevalue, uint256 _spotifyListeners, uint256 _youtubeSubscribers, address _assetPoolAddress) public {
         artistName = _artistName;
@@ -72,7 +102,7 @@ contract BondNFT is ERC721, Ownable {
         //requestLatestYoutubeSubscribers();
         //requestMetadataURI();
     }
-
+    */
     function mintBonds(address to) public {
         for(uint16 i=0; i<numberOfBonds; i++) {
             _safeMint(to, totalSupply);
@@ -128,12 +158,12 @@ contract BondNFT is ERC721, Ownable {
     }*/
 
     // For Spotify Listeners Request FulFill
-    function latestSpotifyListenersFulFill(uint256 _listeners) public {
-        spotifyListeners = _listeners;
+    function latestSpotifyStreamCountFulFill(uint256 _spotifyStreamCount) public {
+        spotifyStreamCount = _spotifyStreamCount;
     }
 
-    function latestYoutubeSubscribersFulFill(uint256 _youtubeSubscribers) public {
-        youtubeSubscribers = _youtubeSubscribers;
+    function latestYoutubeViewsCountFulFill(uint256 _youtubeViewsCount) public {
+        youtubeViewsCount = _youtubeViewsCount;
     }
 
 
