@@ -54,11 +54,12 @@ task("functions-request", "Initiates a request from an Functions client contract
     if(datatype == 1) {
       requestConfig = require("../../Functions-request-config.js")
       requestConfig.args[0] = await bondNFT.youtubeSongId()
+      requestConfig.args[1] = await bondNFT.songstatsSongId()
     }
     else if(datatype == 2) {
       requestConfig = require("../../Functions-request-config-spotify.js")
-      requestConfig.args[0] = await bondNFT.soundchartsSpotifySongId()
-      requestConfig.args[1] = await bondNFT.songstatsSpotifySongId()
+      requestConfig.args[0] = await bondNFT.soundchartsSongId()
+      requestConfig.args[1] = await bondNFT.songstatsSongId()
     }
     console.log("Config args = ", requestConfig.args)
     const { success, resultLog } = await simulateRequest(requestConfig)
