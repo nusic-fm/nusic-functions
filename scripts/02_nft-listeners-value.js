@@ -7,14 +7,14 @@ async function main() {
   const [owner, addr1] = await ethers.getSigners();
 
   const bondNFTFactory =  await ethers.getContractFactory("BondNFT");
-  const bondNFT = await bondNFTFactory.attach("0x28161e390C5fC551DA9B2fa216B63bD88b7094B6");
+  const bondNFT = await bondNFTFactory.attach("0x05cA3e08c871D6CE41AaffdEB59d71088dFD76F0");
   console.log("BondNFT Address: ", bondNFT.address);
 
-  const _spotifyListeners = await bondNFT.spotifyListeners();
-  const _youtubeSubscribers = await bondNFT.youtubeSubscribers();
+  const _spotifyStreamCount = await bondNFT.spotifyStreamCount();
+  const _youtubeViewsCount = await bondNFT.youtubeViewsCount();
 
-  console.log("spotifyListeners = ",_spotifyListeners.toString());
-  console.log("youtubeSubscribers = ",_youtubeSubscribers.toString());
+  console.log("spotifyStreamCount = ",_spotifyStreamCount.toString());
+  console.log("youtubeViewsCount = ",_youtubeViewsCount.toString());
 
 }
 

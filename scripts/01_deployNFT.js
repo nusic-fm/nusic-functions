@@ -23,9 +23,21 @@ async function main() {
                               initialFundingProvided,numberOfYears,numberOfBonds,bondValue, 
                               55000, 540, "0x1b172041137e7c404903ea2ee28898abab93c83f") 
   */
+ /*
   const bondInitializeTx = await bondNFT.initialize("Howie B","UCOmHUn--16B90oW2L6FRR3A","11e81bbf-f008-b6a4-b1c1-a0369fe50396","1q0hd7mr",
                       initialFundingProvided,numberOfYears,numberOfBonds,bondValue, 
                       55000, 540, "0x1b172041137e7c404903ea2ee28898abab93c83f") 
+                      */
+
+  /*
+  const bondInitializeTx = await bondNFT.initialize("MmmCherry","7vEPncg8zno","a59154fd-61aa-4076-9569-335dcc5e2b79","sznmhxr8",
+    initialFundingProvided,numberOfYears,numberOfBonds,bondValue, 
+    55000, 540, "0x1b172041137e7c404903ea2ee28898abab93c83f") 
+  */
+ 
+  const bondInitializeTx = await bondNFT.initialize("MmmCherry","7vEPncg8zno","11040b66-5ccb-493c-85d3-40ae9af36f45","isbek24j",
+    initialFundingProvided,numberOfYears,numberOfBonds,bondValue, 
+    55000, 540, "0x1b172041137e7c404903ea2ee28898abab93c83f") 
   const bondInitializeTxReceipt = await bondInitializeTx.wait(1)
   
 }
