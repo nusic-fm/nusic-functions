@@ -32,9 +32,20 @@ task("functions-simulate", "Simulates an end-to-end fulfillment locally for the 
     const client = await clientFactory.deploy(oracle.address)
     await client.deployTransaction.wait(1)
 
+    
     const bondNFTFactory = await ethers.getContractFactory("BondNFT")
     const bondNFT = await bondNFTFactory.deploy("BondNFT", "BNFT")
     await bondNFT.deployTransaction.wait(1)
+    /*
+    const bondValue = ethers.utils.parseEther("0.012");
+    const numberOfYears = 3;
+    const initialFundingProvided = ethers.utils.parseEther("0.001") //bondValue.div(numberOfYears.mul(4));
+    const numberOfBonds = 1;
+    const bondInitializeTx = await bondNFT.initialize("MmmCherry","UCOmHUn--16B90oW2L6FRR3A","79e77b3c-de82-11e8-8402-549f35161576","uve7d2ya",
+                              initialFundingProvided,numberOfYears,numberOfBonds,bondValue, 
+                              55000, 540, "0x1b172041137e7c404903ea2ee28898abab93c83f") 
+    const bondInitializeTxReceipt = await bondInitializeTx.wait(1)
+    */
 
     const accounts = await ethers.getSigners()
     const deployer = accounts[0]
