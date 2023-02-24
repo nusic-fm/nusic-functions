@@ -7,7 +7,12 @@ async function main() {
 
   console.log("data = ",network.config);
   console.log("data = ",network.name);
-/*
+
+  const USDCMockFactory =  await ethers.getContractFactory("USDCMock");
+  const usdcMock = await USDCMockFactory.deploy();
+  await usdcMock.deployed(); 
+  console.log("USDCMockFactory deployed to:", usdcMock.address);
+
   const ratingEngineFactory =  await ethers.getContractFactory("RatingEngine");
   const ratingEngine = await ratingEngineFactory.deploy();
   await ratingEngine.deployed(); 
@@ -23,10 +28,10 @@ async function main() {
   await bondNFTManager.deployed(); 
   console.log("BondNFTManager deployed to:", bondNFTManager.address);
 
-  const bondNFTManagerInitializeTx = await bondNFTManager.initialize(ratingEngine.address,bondNFTGenerator.address,"0xe6b8a5cf854791412c1f6efc7caf629f5df1c747",owner.address) 
+  const bondNFTManagerInitializeTx = await bondNFTManager.initialize(ratingEngine.address,bondNFTGenerator.address,usdcMock.address,owner.address) 
   console.log("bondNFTManagerInitializeTx.hash = ",bondNFTManagerInitializeTx.hash);
   const bondInitializeTxReceipt = await bondNFTManagerInitializeTx.wait(1)
-*/
+
   
 }
 
