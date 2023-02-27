@@ -65,33 +65,36 @@ const [spotifyStreamCountResponse, spotifyStreamCountSongStatsResponse, spotifyS
 
 //console.log("spotifyStreamCountResponse = ",spotifyStreamCountResponse);
 //console.log("spotifyStreamCountResponse.data = ",spotifyStreamCountResponse.data.items[0]);
-console.log("spotifyStreamCountResponse value = ",spotifyStreamCountResponse.data.items[0].plots[0].value);
+//console.log("spotifyStreamCountResponse value = ",spotifyStreamCountResponse.data.items[0].plots[0].value);
 
 
 //console.log("spotifyStreamCountSongStatsResponse = ",spotifyStreamCountSongStatsResponse);
 //console.log("spotifyStreamCountSongStatsResponse.data = ",spotifyStreamCountSongStatsResponse.data.stats[0]);
-console.log("spotifyStreamCountSongStatsResponse streams_total = ",spotifyStreamCountSongStatsResponse.data.stats[0].data.streams_total);
+//console.log("spotifyStreamCountSongStatsResponse streams_total = ",spotifyStreamCountSongStatsResponse.data.stats[0].data.streams_total);
 
 //console.log("spotifyStreamCountChartmetricResponse = ",spotifyStreamCountChartmetricResponse);
 //console.log("spotifyStreamCountChartmetricResponse.data = ",spotifyStreamCountChartmetricResponse.data.obj[0]);
-console.log("spotifyStreamCountChartmetricResponse streams count = ",spotifyStreamCountChartmetricResponse.data.obj[0].value);
+//console.log("spotifyStreamCountChartmetricResponse streams count = ",spotifyStreamCountChartmetricResponse.data.obj[0].value);
 
 const stats = [];
 
 if (!spotifyStreamCountResponse.error) {
   stats.push(spotifyStreamCountResponse.data.items[0].plots[0].value)
+  console.log("spotifyStreamCountResponse value = ",spotifyStreamCountResponse.data.items[0].plots[0].value);
 } else {
   console.log("SoundCharts Spotify Stream Count Error")
 }
 
 if (!spotifyStreamCountSongStatsResponse.error) {
   stats.push(spotifyStreamCountSongStatsResponse.data.stats[0].data.streams_total)
+  console.log("spotifyStreamCountSongStatsResponse streams_total = ",spotifyStreamCountSongStatsResponse.data.stats[0].data.streams_total);
 } else {
   console.log("Song Stats Spotify Stream Count Error")
 }
 
 if (!spotifyStreamCountChartmetricResponse.error) {
   stats.push(spotifyStreamCountChartmetricResponse.data.obj[0].value)
+  console.log("spotifyStreamCountChartmetricResponse streams count = ",spotifyStreamCountChartmetricResponse.data.obj[0].value);
 } else {
   console.log("Chartmetric Spotify Stream Count Error")
 }
