@@ -1,4 +1,5 @@
-const { ethers } = require('hardhat');
+const { ethers, network } = require('hardhat');
+const addresses = require("./address.json");
 /*
 * Main deployment script to deploy all the relevent contracts
 */
@@ -7,30 +8,35 @@ async function main() {
 
   console.log("data = ",network.config);
   console.log("data = ",network.name);
+  console.log("test data = ", addresses[network.name].usdcMock);
 
+  /*
   const USDCMockFactory =  await ethers.getContractFactory("USDCMock");
   const usdcMock = await USDCMockFactory.deploy();
   await usdcMock.deployed(); 
   console.log("USDCMockFactory deployed to:", usdcMock.address);
-
+  */
+ 
   const ratingEngineFactory =  await ethers.getContractFactory("RatingEngine");
   const ratingEngine = await ratingEngineFactory.deploy();
   await ratingEngine.deployed(); 
   console.log("RatingEngine deployed to:", ratingEngine.address);
+  
+  
+  const NotesNFTGeneratorFactory =  await ethers.getContractFactory("NotesNFTGenerator");
+  const notesNFTGenerator = await NotesNFTGeneratorFactory.deploy();
+  await notesNFTGenerator.deployed(); 
+  console.log("NotesNFTGenerator deployed to:", notesNFTGenerator.address);
 
-  const bondNFTGeneratorFactory =  await ethers.getContractFactory("BondNFTGenerator");
-  const bondNFTGenerator = await bondNFTGeneratorFactory.deploy();
-  await bondNFTGenerator.deployed(); 
-  console.log("BondNFTGenerator deployed to:", bondNFTGenerator.address);
 
-  const BondNFTManagerFactory =  await ethers.getContractFactory("BondNFTManager");
-  const bondNFTManager = await BondNFTManagerFactory.deploy();
-  await bondNFTManager.deployed(); 
-  console.log("BondNFTManager deployed to:", bondNFTManager.address);
+  const NotesNFTManagerFactory =  await ethers.getContractFactory("NotesNFTManager");
+  const notesNFTManager = await NotesNFTManagerFactory.deploy();
+  await notesNFTManager.deployed(); 
+  console.log("NotesNFTManager deployed to:", notesNFTManager.address);
 
-  const bondNFTManagerInitializeTx = await bondNFTManager.initialize(ratingEngine.address,bondNFTGenerator.address,usdcMock.address,owner.address) 
-  console.log("bondNFTManagerInitializeTx.hash = ",bondNFTManagerInitializeTx.hash);
-  const bondInitializeTxReceipt = await bondNFTManagerInitializeTx.wait(1)
+  const notesNFTManagerInitializeTx = await notesNFTManager.initialize(ratingEngine.address, notesNFTGenerator.address, addresses[network.name].usdcMock, owner.address) 
+  console.log("NotesNFTManagerInitializeTx.hash = ",notesNFTManagerInitializeTx.hash);
+  const notesInitializeTxReceipt = await notesNFTManagerInitializeTx.wait(1)
 
   
 }

@@ -6,12 +6,20 @@ const { networkConfig } = require("../network-config")
 async function main() {
   const [owner, addr1] = await ethers.getSigners();
 
-  const bondNFTFactory =  await ethers.getContractFactory("BondNFT");
-  const bondNFT = await bondNFTFactory.attach("0x05cA3e08c871D6CE41AaffdEB59d71088dFD76F0");
-  console.log("BondNFT Address: ", bondNFT.address);
+  const NotesNFTFactory =  await ethers.getContractFactory("NotesNFT");
+  const notesNFT = await NotesNFTFactory.attach("0x39EeE195eC10682F794D5C671b378bD607E2CFeD");
+  console.log("NotesNFT Address: ", notesNFT.address);
 
-  const _spotifyStreamCount = await bondNFT.spotifyStreamCount();
-  const _youtubeViewsCount = await bondNFT.youtubeViewsCount();
+  const _soundchartsSongId = await notesNFT.soundchartsSongId();
+  const _songstatsSongId = await notesNFT.songstatsSongId();
+  const _chartmetricSongId = await notesNFT.chartmetricSongId();
+  console.log(`soundchartsSongId = '${_soundchartsSongId}'`);
+  console.log(`songstatsSongId = '${_songstatsSongId}'`);
+  console.log(`chartmetricSongId = '${_chartmetricSongId}'`);
+  
+
+  const _spotifyStreamCount = await notesNFT.spotifyStreamCount();
+  const _youtubeViewsCount = await notesNFT.youtubeViewsCount();
 
   console.log("spotifyStreamCount = ",_spotifyStreamCount.toString());
   console.log("youtubeViewsCount = ",_youtubeViewsCount.toString());
