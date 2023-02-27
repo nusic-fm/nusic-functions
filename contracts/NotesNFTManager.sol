@@ -26,6 +26,7 @@ contract NotesNFTManager is Ownable {
         string youtubeSongId;
         string soundchartsSongId;
         string songstatsSongId;
+        string chartmetricSongId;
         uint256 price;
         uint256 numberOfTokens;
         address issuerAddress;
@@ -85,7 +86,7 @@ contract NotesNFTManager is Ownable {
         manager = _managerAddress;
     }
 
-    function issueNotes(string memory _artistName, address _artistAddress, string memory _youtubeSongId, string memory _soundchartsSongId, string memory _songstatsSongId,
+    function issueNotes(string memory _artistName, address _artistAddress, string memory _youtubeSongId, string memory _soundchartsSongId, string memory _songstatsSongId, string memory _chartmetricSongId,
                         uint256 _price, uint256 _numberOfTokens, string memory _notesName, string memory _notesSymbol, 
                         ListenersDetails memory listenersDetails) public {
        
@@ -98,11 +99,11 @@ contract NotesNFTManager is Ownable {
         
         //BondNFT bondNFT = BondNFT(nftAddress);
 
-        nft.initialize(_artistName, _artistAddress, _youtubeSongId, _soundchartsSongId, _songstatsSongId, _price,_numberOfTokens, listenersDetails.spotifyStreamCount, 
+        nft.initialize(_artistName, _artistAddress, _youtubeSongId, _soundchartsSongId, _songstatsSongId, _chartmetricSongId,_price,_numberOfTokens, listenersDetails.spotifyStreamCount, 
                             listenersDetails.youtubeViewsCount, manager);
         emit BondInitialized(nftAddress,2);
         
-        BondConfig memory _config = BondConfig(_artistName, _artistAddress, _youtubeSongId,_soundchartsSongId, _songstatsSongId, _price,_numberOfTokens, 
+        BondConfig memory _config = BondConfig(_artistName, _artistAddress, _youtubeSongId,_soundchartsSongId, _songstatsSongId, _chartmetricSongId, _price,_numberOfTokens, 
             msg.sender, nftAddress);
 
         userBondConfigs[msg.sender].push(_config);

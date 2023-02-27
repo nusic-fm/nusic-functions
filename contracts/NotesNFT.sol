@@ -19,6 +19,7 @@ contract NotesNFT is ERC721, Ownable {
     string public youtubeSongId;
     string public soundchartsSongId;
     string public songstatsSongId;
+    string public chartmetricSongId;
     uint256 public numberOfTokens; // Same as Max Supply
     address public issuerAddress;
     uint256 public spotifyStreamCount;
@@ -49,12 +50,13 @@ contract NotesNFT is ERC721, Ownable {
 
     // funding amount means amount issuer will deposit at start
     
-    function initialize(string memory _artistName, address _artistAddress, string memory _youtubeSongId, string memory _soundchartsSongId, string memory _songstatsSongId,
+    function initialize(string memory _artistName, address _artistAddress, string memory _youtubeSongId, string memory _soundchartsSongId, string memory _songstatsSongId, string memory _chartmetricSongId,
                 uint256 _price, uint256 _numberOfTokens, uint256 _spotifyStreamCount, uint256 _youtubeViewsCount, address _manager) public {
         artistName = _artistName;
         youtubeSongId = _youtubeSongId;
         soundchartsSongId = _soundchartsSongId;
         songstatsSongId = _songstatsSongId;
+        chartmetricSongId = _chartmetricSongId;
         numberOfTokens = _numberOfTokens;
         issuerAddress = _artistAddress;
         price = _price;
