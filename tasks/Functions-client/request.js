@@ -14,7 +14,7 @@ task("functions-request", "Initiates a request from an Functions client contract
   .setAction(async (taskArgs, hre) => {
     // A manual gas limit is required as the gas limit estimated by Ethers is not always accurate
     const overrides = {
-      gasLimit: 500000,
+      gasLimit: 550000,
     }
 
     if (network.name === "hardhat") {
@@ -60,6 +60,7 @@ task("functions-request", "Initiates a request from an Functions client contract
       requestConfig = require("../../Functions-request-config-spotify.js")
       requestConfig.args[0] = await notesNFT.soundchartsSongId()
       requestConfig.args[1] = await notesNFT.songstatsSongId()
+      requestConfig.args[2] = await notesNFT.chartmetricSongId()
     }
     console.log("Config args = ", requestConfig.args)
     const { success, resultLog } = await simulateRequest(requestConfig)
