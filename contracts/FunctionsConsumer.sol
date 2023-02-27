@@ -4,7 +4,7 @@ pragma solidity ^0.8.7;
 import "./dev/functions/FunctionsClient.sol";
 // import "@chainlink/contracts/src/v0.8/dev/functions/FunctionsClient.sol"; // Once published
 import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
-import "./BondNFT.sol";
+import "./NotesNFT.sol";
 
 /**
  * @title Functions Copns contract
@@ -74,13 +74,13 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner {
     latestError = err;
     uint256 _datatype = requestDataMapping[requestId];
     address _nftContractAddress = requestToNFTAddress[requestId];
-    BondNFT bondNFT = BondNFT(_nftContractAddress);
+    NotesNFT notesNFT = NotesNFT(_nftContractAddress);
     if(_datatype == 1) { // 1 = youtube
-      bondNFT.latestYoutubeViewsCountFulFill(bytesToUint256(response));
+      notesNFT.latestYoutubeViewsCountFulFill(bytesToUint256(response));
       emit OCRResponse(requestId, response, err, "youtube");
     }
     else if(_datatype == 2) { // 2 = spotify
-      bondNFT.latestSpotifyStreamCountFulFill(bytesToUint256(response));
+      notesNFT.latestSpotifyStreamCountFulFill(bytesToUint256(response));
       emit OCRResponse(requestId, response, err, "spotify");
     }
     
