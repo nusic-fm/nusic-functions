@@ -1,3 +1,5 @@
+# NUSIC Functions
+
 # Chainlink Functions Starter Kit
 
 - [Chainlink Functions Starter Kit](#chainlink-functions-starter-kit)
