@@ -32,10 +32,9 @@ task("functions-simulate", "Simulates an end-to-end fulfillment locally for the 
     const client = await clientFactory.deploy(oracle.address)
     await client.deployTransaction.wait(1)
 
-    
-    const bondNFTFactory = await ethers.getContractFactory("BondNFT")
-    const bondNFT = await bondNFTFactory.deploy("BondNFT", "BNFT")
-    await bondNFT.deployTransaction.wait(1)
+    const NotesNFTFactory =  await ethers.getContractFactory("NotesNFT");
+    const notesNFT = await NotesNFTFactory.deploy("NotesNFT", "NNFT")
+    await notesNFT.deployTransaction.wait(1)
     /*
     const bondValue = ethers.utils.parseEther("0.012");
     const numberOfYears = 3;
@@ -88,7 +87,7 @@ task("functions-simulate", "Simulates an end-to-end fulfillment locally for the 
         subscriptionId,
         gasLimit, 
         datatype,
-        bondNFT.address
+        notesNFT.address
       )
       const requestTxReceipt = await requestTx.wait(1)
       const requestId = requestTxReceipt.events[2].args.id
