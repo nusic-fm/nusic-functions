@@ -3,11 +3,11 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
-import "./BondNFT.sol";
+import "./NotesNFT.sol";
 import "./AssetPool.sol";
 
 /*
-* RatingEngine will be used to calculate rating of BondNFT
+* RatingEngine will be used to calculate rating of NotesNFT
 */
 contract RatingEngine is Ownable {
 
@@ -20,8 +20,8 @@ contract RatingEngine is Ownable {
     
     function allocateRatingByAssetPoolAddress(address _assetPoolAddress, uint256 _couponRate) public view returns(string memory){
         AssetPool assetPool = AssetPool(payable(_assetPoolAddress));
-        BondNFT bondNFT = BondNFT(assetPool.nftAddress());
-        uint256 meadianListeners = calculateMedian(bondNFT.spotifyStreamCount(),bondNFT.youtubeViewsCount());
+        NotesNFT notesNFT = NotesNFT(assetPool.nftAddress());
+        uint256 meadianListeners = calculateMedian(notesNFT.spotifyStreamCount(),notesNFT.youtubeViewsCount());
         uint256 assetPoolBalance = _assetPoolAddress.balance;
         uint256 bondValue = assetPool.bondValue();
         uint256 totalValueWithInterest = bondValue + calculateYiedPayment(bondValue, _couponRate, assetPool.numberOfQuarters());
