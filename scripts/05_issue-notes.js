@@ -22,10 +22,10 @@ async function main() {
         youtubeViewsCount: BigNumber.from("540"),
       },
       {
-        influencerOne: owner.address,
-        influencerTwo: owner.address,
-        influencerOneShare: BigNumber.from("2000"),
-        influencerTwoShare: BigNumber.from("3000")
+        promotionOne: owner.address,
+        promotionTwo: owner.address,
+        promotionOneShare: BigNumber.from("2000"),
+        promotionTwoShare: BigNumber.from("3000")
       })
   //.initialize("MmmCherry",owner.address,"7vEPncg8zno","a59154fd-61aa-4076-9569-335dcc5e2b79","sznmhxr8","31456083", price,numberOfTokens, 55000, 540, owner.address); 
   //.initialize(ratingEngine.address, notesNFTGenerator.address, addresses[network.name].usdcMock, owner.address) 
