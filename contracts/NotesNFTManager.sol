@@ -22,13 +22,6 @@ contract NotesNFTManager is Ownable {
 
     struct BondConfig {
         string artistName;
-        address artistAddress;
-        string youtubeSongId;
-        string soundchartsSongId;
-        string songstatsSongId;
-        string chartmetricSongId;
-        uint256 price;
-        uint256 numberOfTokens;
         address issuerAddress;
         address nftAddress;
     }
@@ -39,7 +32,7 @@ contract NotesNFTManager is Ownable {
         uint256 bondvalue;
     }
 
-    mapping(address => BondConfig[]) public userBondConfigs;
+    mapping(address => address[]) public userBondConfigs;
     mapping(address => AssetPoolInfo[]) public userAssetPools;
 
     address[] public allBondNfts;
@@ -66,7 +59,13 @@ contract NotesNFTManager is Ownable {
     struct ListenersDetails {
         uint256 spotifyStreamCount;
         uint256 youtubeViewsCount;
-        address assetPoolAddress;
+    }
+
+    struct PromotionDetails {
+        address promotionOne;
+        address promotionTwo;
+        uint256 promotionOneShare;
+        uint256 promotionTwoShare;
     }
 
     event BondGenerated(address nftaddress, uint256);
@@ -88,25 +87,24 @@ contract NotesNFTManager is Ownable {
 
     function issueNotes(string memory _artistName, address _artistAddress, string memory _youtubeSongId, string memory _soundchartsSongId, string memory _songstatsSongId, string memory _chartmetricSongId,
                         uint256 _price, uint256 _numberOfTokens, string memory _notesName, string memory _notesSymbol, 
-                        ListenersDetails memory listenersDetails) public {
+                        ListenersDetails memory listenersDetails, PromotionDetails memory promotionDetails) public {
        
         //nftAddress = bondNFTGenerator.generateNFT(_notesName, _notesSymbol);
-        NotesNFT nft = new NotesNFT(_notesName, _notesSymbol);
-        address nftAddress = address(this);
+        NotesNFT nft = new NotesNFT(_notesName, _notesSymbol, usdcAddress, manager);
+        address nftAddress = address(nft);
         
-
         emit BondGenerated(nftAddress,1);
         
         //BondNFT bondNFT = BondNFT(nftAddress);
 
         nft.initialize(_artistName, _artistAddress, _youtubeSongId, _soundchartsSongId, _songstatsSongId, _chartmetricSongId,_price,_numberOfTokens, listenersDetails.spotifyStreamCount, 
-                            listenersDetails.youtubeViewsCount, manager);
+                            listenersDetails.youtubeViewsCount);
+        nft.setupPromotions(promotionDetails.promotionOne, promotionDetails.promotionOneShare, promotionDetails.promotionTwo, promotionDetails.promotionTwoShare);
         emit BondInitialized(nftAddress,2);
         
-        BondConfig memory _config = BondConfig(_artistName, _artistAddress, _youtubeSongId,_soundchartsSongId, _songstatsSongId, _chartmetricSongId, _price,_numberOfTokens, 
-            msg.sender, nftAddress);
-
-        userBondConfigs[msg.sender].push(_config);
+        //BondConfig memory _config = BondConfig(_artistName, _artistAddress,nftAddress);
+        
+        userBondConfigs[msg.sender].push(nftAddress);
         allBondNfts.push(nftAddress);
         emit BondConfigDone(nftAddress,3);
         
@@ -115,9 +113,9 @@ contract NotesNFTManager is Ownable {
     }
 
     //onlyOwnerOrManager
-    function mintNFTNotes(address _nftAddress) public {
+    function mintNFTNotes(address _nftAddress, uint256 _amount) public {
         NotesNFT notesNFT = NotesNFT(_nftAddress);
-        notesNFT.mintBonds(msg.sender);
+        notesNFT.mintBonds(msg.sender, _amount);
         emit BondNFTMinted(_nftAddress,notesNFT.totalSupply());
     }
 
