@@ -29,23 +29,25 @@ const [youtubeViewCountResponse, youtubeViewsCountSongstatsResponse] = await Pro
 
 //console.log("youtubeViewCountResponse = ",youtubeViewCountResponse);
 //console.log("youtubeViewCountResponse.data = ",youtubeViewCountResponse.data.items[0]);
-console.log("youtubeViewCountResponse.value = ",youtubeViewCountResponse.data.items[0].statistics.viewCount);
+//console.log("youtubeViewCountResponse.value = ",youtubeViewCountResponse.data.items[0].statistics.viewCount);
 
 //console.log("youtubeViewsCountSongstatsResponse = ",youtubeViewsCountSongstatsResponse);
 //console.log("youtubeViewsCountSongstatsResponse.data = ",youtubeViewsCountSongstatsResponse.data.stats[0]);
-console.log("youtubeViewsCountSongstatsResponse.value = ",youtubeViewsCountSongstatsResponse.data.stats[0].data.video_views_total);
+//console.log("youtubeViewsCountSongstatsResponse.value = ",youtubeViewsCountSongstatsResponse.data.stats[0].data.video_views_total);
 
 const stats = [];
 
 
 if (!youtubeViewCountResponse.error) {
   stats.push(youtubeViewCountResponse.data.items[0].statistics.viewCount)
+  console.log("youtubeViewCountResponse.value = ",youtubeViewCountResponse.data.items[0].statistics.viewCount);
 } else {
   console.log("API Youtube Views Count Count Error")
 }
 
 if (!youtubeViewsCountSongstatsResponse.error) {
   stats.push(youtubeViewsCountSongstatsResponse.data.stats[0].data.video_views_total)
+  console.log("youtubeViewsCountSongstatsResponse.value = ",youtubeViewsCountSongstatsResponse.data.stats[0].data.video_views_total);
 } else {
   console.log("Songstats Youtube Views Count Error")
 }

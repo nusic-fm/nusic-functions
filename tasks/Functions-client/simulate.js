@@ -33,7 +33,7 @@ task("functions-simulate", "Simulates an end-to-end fulfillment locally for the 
     await client.deployTransaction.wait(1)
 
     const NotesNFTFactory =  await ethers.getContractFactory("NotesNFT");
-    const notesNFT = await NotesNFTFactory.deploy("NotesNFT", "NNFT")
+    const notesNFT = await NotesNFTFactory.deploy("NotesNFT", "NNFT", "0x0000000000000000000000000000000000000000", "0x0000000000000000000000000000000000000000")
     await notesNFT.deployTransaction.wait(1)
     /*
     const bondValue = ethers.utils.parseEther("0.012");
