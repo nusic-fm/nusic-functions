@@ -1,13 +1,13 @@
 {
     "localhost": {
         "ratingEngine":"0x5FbDB2315678afecb367f032d93F642f64180aa3",
-        "bondNFTGenerator":"0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-        "bondNFTManager": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
+        "notesNFTGenerator":"0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "notesNFTManager": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
     },
     "mumbai": {
-        "ratingEngine":"0x5FbDB2315678afecb367f032d93F642f64180aa3",
-        "bondNFTGenerator":"0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-        "bondNFTManager": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+        "ratingEngine":"0x1b3c151198Acff6d2d2dCb063FABf3ec2E989cEc",
+        "notesNFTGenerator":"0x46BADfdE470edf148B17562BCB687C3DDB77BF04",
+        "notesNFTManager": "0x8beA4b1447E08DDe66059F1FeE702b3F6fe5717e",
         "usdcMock": "0xeeB5276300CcC8B5cAF6a0108566815fbaAd35f8"
     },
     "polygon": {
