@@ -136,4 +136,21 @@ contract NotesNFT is ERC721, Ownable {
         manager = _manager;
     }
 
+    function withdrawForPromotionOne() public onlyOwnerManagerOrArtist {
+        require(promotionOne != address(0) && promotionOneShare != 0,"Invalid details for Promotion One");
+        require(promotionOneBalance != 0,"No balance available for PromotionOne");
+        USDC.transfer(promotionOne, promotionOneBalance);
+        emit PromotionWithdrawl(promotionOne, promotionOneBalance);
+        promotionOneBalance = 0;
+    }
+
+    function withdrawForPromotionTwo() public onlyOwnerManagerOrArtist {
+        require(promotionTwo != address(0) && promotionTwoShare != 0,"Invalid details for Promotionr Two");
+        require(promotionTwoBalance != 0,"No balance available for PromotionTwo");
+        USDC.transfer(promotionTwo, promotionTwoBalance);
+        emit PromotionWithdrawl(promotionTwo, promotionTwoBalance);
+        promotionTwoBalance = 0;
+    }
+    
+
 }
