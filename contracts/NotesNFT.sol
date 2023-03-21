@@ -1,16 +1,18 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "operator-filter-registry/src/DefaultOperatorFilterer.sol";
+import {ERC2981} from "@openzeppelin/contracts/token/common/ERC2981.sol";
 ///import "./FunctionsConsumer.sol";
 //import "./ChainlinkSpotifyListeners.sol";
 //import "./ChainlinkMetadataRequest.sol";
 //import "./ChainlinkYoutubeSubscribers.sol";
 
-contract NotesNFT is ERC721, Ownable {
+contract NotesNFT is ERC721, Ownable, DefaultOperatorFilterer, ERC2981{
     using Strings for string;
     using Strings for uint256;
 
@@ -150,6 +152,17 @@ contract NotesNFT is ERC721, Ownable {
         USDC.transfer(promotionTwo, promotionTwoBalance);
         emit PromotionWithdrawl(promotionTwo, promotionTwoBalance);
         promotionTwoBalance = 0;
+    }
+
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, ERC2981) returns (bool) {
+        // Supports the following `interfaceId`s:
+        // - IERC165: 0x01ffc9a7
+        // - IERC721: 0x80ac58cd
+        // - IERC721Metadata: 0x5b5e139f
+        // - IERC2981: 0x2a55205a
+        return
+            ERC721.supportsInterface(interfaceId) ||
+            ERC2981.supportsInterface(interfaceId);
     }
     
 
