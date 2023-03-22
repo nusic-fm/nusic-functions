@@ -59,6 +59,7 @@ contract NotesNFT is ERC721, Ownable, DefaultOperatorFilterer, ERC2981{
     constructor(string memory _name, string memory _symbol, address _usdcAddress, address _manager) ERC721(_name, _symbol) {
         USDC = ERC20(_usdcAddress);
         manager = _manager;
+        _setDefaultRoyalty(owner(), 6000);
     }
 
     // funding amount means amount issuer will deposit at start
@@ -163,6 +164,37 @@ contract NotesNFT is ERC721, Ownable, DefaultOperatorFilterer, ERC2981{
         return
             ERC721.supportsInterface(interfaceId) ||
             ERC2981.supportsInterface(interfaceId);
+    }
+
+    function setDefaultRoyalty(address receiver, uint96 feeNumerator) public onlyOwner{
+        _setDefaultRoyalty(receiver, feeNumerator);
+    }
+
+    // Operator Filtering
+
+    function setApprovalForAll(address operator, bool approved) 
+        public override onlyAllowedOperatorApproval(operator) {
+        super.setApprovalForAll(operator, approved);
+    }
+
+    function approve(address operator, uint256 tokenId) 
+        public override onlyAllowedOperatorApproval(operator) {
+        super.approve(operator, tokenId);
+    }
+
+    function transferFrom(address from, address to,uint256 tokenId) 
+        public override onlyAllowedOperator(from) {
+        super.transferFrom(from, to, tokenId);
+    }
+
+    function safeTransferFrom(address from, address to, uint256 tokenId) 
+        public override onlyAllowedOperator(from) {
+        super.safeTransferFrom(from, to, tokenId);
+    }
+
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data) 
+        public override onlyAllowedOperator(from) {
+        super.safeTransferFrom(from, to, tokenId, data);
     }
     
 
